@@ -1,6 +1,6 @@
 import streamlit as st
 import firebase_admin
-from firebase_admin import credentials, firestore
+from firebase_admin import credentials, firestore, auth
 from googletrans import Translator, LANGUAGES
 from gtts import gTTS
 import tempfile
@@ -13,22 +13,9 @@ from PIL import Image
 
 # =================== FIREBASE CONFIGURATION =================== #
 
-firebase_config = {
-    "apiKey": "AIzaSyAtJQyQUAXAd60z8JGcUQ1oIYmxWKuljxY",
-    "authDomain": "bot1-cc0f2.firebaseapp.com",
-    "databaseURL": "https://bot1-cc0f2.firebaseio.com",  # Correct URL for Firebase Realtime Database
-    "projectId": "bot1-cc0f2",
-    "storageBucket": "bot1-cc0f2.appspot.com",
-    "messagingSenderId": "858999659572",
-    "appId": "1:858999659572:web:bcbdbd8a52bd264c33be61"
-}
-
-firebase = pyrebase.initialize_app(firebase_config)
-auth = firebase.auth()
-
 # Initialize Firebase Admin SDK for Firestore (Using service account credentials)
 if not firebase_admin._apps:
-    cred = credentials.Certificate("C:/Users/Home/Documents/PROJ/BOT1/bot1-cc0f2-firebase-adminsdk-fbsvc-378585a70b.json")
+    cred = credentials.Certificate("path/to/your/serviceAccountKey.json")
     firebase_admin.initialize_app(cred)
 
 db = firestore.client()
@@ -39,6 +26,7 @@ st.set_page_config(page_title="🌍 Language Translation Chatbot", layout="wide"
 
 st.title("🌍 Language Translation Chatbot")
 
+# Check if user is already logged in
 if "user" not in st.session_state:
     st.subheader("🔑 Login / Signup")
 
@@ -47,14 +35,16 @@ if "user" not in st.session_state:
     email = st.text_input("Email")
     password = st.text_input("Password", type="password")
 
+    # Handle Signup
     if choice == "Signup":
         if st.button("Create Account"):
             try:
-                auth.create_user_with_email_and_password(email, password)
+                user = auth.create_user_with_email_and_password(email, password)
                 st.success("Account created successfully! Please log in.")
             except Exception as e:
                 st.error(f"Error: {e}")
 
+    # Handle Login
     if choice == "Login":
         if st.button("Login"):
             try:
