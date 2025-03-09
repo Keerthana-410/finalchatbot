@@ -9,3 +9,4 @@ pytesseract
 Pillow
 pyrebase
 pycryptodome
+gcloud
