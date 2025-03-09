@@ -15,7 +15,7 @@ from PIL import Image
 
 # Initialize Firebase Admin SDK for Firestore (Using service account credentials)
 if not firebase_admin._apps:
-    cred = credentials.Certificate("path/to/your/serviceAccountKey.json")
+    cred = credentials.Certificate("C:\Users\Home\Documents\PROJ\BOT1\bot1-cc0f2-firebase-adminsdk-fbsvc-378585a70b.json")
     firebase_admin.initialize_app(cred)
 
 db = firestore.client()
