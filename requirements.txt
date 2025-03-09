@@ -10,3 +10,5 @@ Pillow
 pyrebase
 pycryptodome
 gcloud
+firebase-admin
+
