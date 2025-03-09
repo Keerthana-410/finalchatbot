@@ -7,3 +7,5 @@ PyPDF2
 python-docx
 pytesseract
 Pillow
+pyrebase
+pycryptodome
